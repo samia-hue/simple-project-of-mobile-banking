@@ -1,33 +1,31 @@
 // * login button functionality
 
-document.getElementById('btn-login').addEventListener('click',function(event){
-    event.preventDefault()
-    // console.log('clicked btn')
-    // console.log(event)
+document
+  .getElementById("btn-login")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
 
-    const mobileNumber = 1234567890;
-    const pinNumber = 1234;
-     
-    // * mobile number
-    const mobileNumberValue = document.getElementById('mobile-number').value;
-    const mobileNumberValueConversion = parseInt(mobileNumberValue);
+    const mobileNumber = 12345678910;
+    const pin = 1234;
 
-    // * pin number
+    const mobileNumberValue = document.getElementById("mobile-number").value;
+    const mobileNumberValueConverted = parseInt(
+      document.getElementById("mobile-number").value
+    );
 
-    const pinNumberValue = document.getElementById('pin-number').value;
-    const pinNumberValueConversion = parseInt(pinNumberValue);
+    const pinNumberValue = document.getElementById("pin-number").value;
+    const pinNumberValueConverted = parseInt(pinNumberValue);
 
+    console.log(mobileNumberValueConverted, pinNumberValueConverted);
 
-    // console.log(mobileNumberValueConversion, pinNumberValueConversion);
+    if (
+      mobileNumberValueConverted === mobileNumber &&
+      pinNumberValueConverted === pin){
 
-
-    // * condition 
-
-    if(mobileNumberValueConversion === mobileNumber && pinNumberValueConversion === pinNumber){
-        window.location.href = "./home.html"
+        window.location.href = './home.html'
     }
-    else{
-        alert("Invalid credentials")
-    }    
 
-})
+    else{
+        alert('Invalid Credentials!')
+    }
+  });
