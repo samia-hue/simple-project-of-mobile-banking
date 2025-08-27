@@ -79,7 +79,12 @@ document.getElementById('btn-add-money').addEventListener('click',function(event
     console.log(bank, accountNumber, amount, pin);
 
     const availableBalance =getInnerText('available-balance');
-    
+
+
+    if(amount <= 0){
+        alert('Invalid amount')
+        return;
+    }
 
     // * condition
 
@@ -99,6 +104,13 @@ document.getElementById('btn-add-money').addEventListener('click',function(event
     const totalNewBalance = amount + availableBalance;
 
     setInnerText(totalNewBalance)
+
+    const data = {
+        name : "Add Money",
+        date: new Date().toLocaleTimeString()
+    }
+
+    transactionData.push(data)
 })
 
 // * cash out featured
@@ -112,7 +124,10 @@ document.getElementById('btn-with-draw-money').addEventListener('click',function
 
     const availableBalance =getInnerText('available-balance')
 
-    console.log(amount, availableBalance);
+    if(amount <= 0 || amount >availableBalance){
+        alert('Amount is not enough')
+        return;
+    }
 
 
 
@@ -137,15 +152,145 @@ document.getElementById('btn-with-draw-money').addEventListener('click',function
     console.log(totalNewBalance);
 
    setInnerText(totalNewBalance);
+
+
    const data = {
-    name : "Cash Out",
-    date : new Date().toLocaleDateString()
-   }
-   transactionData.push(data)
-   console.log(transactionData)
+        name : "Cash Out",
+        date: new Date().toLocaleTimeString()
+    }
+
+    transactionData.push(data)
+   
 
 })
- 
+
+
+// * transfer money
+
+document.getElementById('btn-transfer-money').addEventListener('click',function(event){
+    event.preventDefault();
+
+    const amount = getInputValueNumber('transfer-amount')
+
+    const availableBalance =getInnerText('available-balance')
+
+    if(amount <= 0 || amount >availableBalance){
+        alert('Amount is not enough')
+        return;
+    }
+
+
+
+    const accountNumber = document.getElementById('user-account-number').value;
+    const amountOfWithdraw = parseInt(document.getElementById('transfer-amount').value);
+    
+    const pin =parseInt( document.getElementById('transfer-pin').value);
+
+    if( accountNumber.length <11 || accountNumber.length >11 ){
+        alert('Enter Valid mobile number');
+        return;
+    }
+
+    if(pin !== ValidPinNumber){
+        alert('provide valid pin number');
+        return;
+    }
+     
+
+
+    const totalNewBalance = availableBalance - amount;
+    console.log(totalNewBalance);
+
+   setInnerText(totalNewBalance);
+
+
+   const data = {
+        name : "Transfer amount",
+        date: new Date().toLocaleTimeString()
+    }
+
+    transactionData.push(data)
+   
+
+})
+
+// * Get Bonus
+document.getElementById('btn-get-bonus').addEventListener('click',function(event){
+    event.preventDefault();
+
+    const amount = getInputValueNumber('get-bonus-input')
+
+    const availableBalance =getInnerText('available-balance')
+
+    const totalNewBalance = availableBalance + amount;
+    console.log(totalNewBalance);
+
+   setInnerText(totalNewBalance);
+
+
+   const data = {
+        name : "Get Bonus",
+        date: new Date().toLocaleTimeString()
+    }
+
+    transactionData.push(data)
+   
+
+})
+
+
+// * pay bill
+
+
+document.getElementById('pay-btn').addEventListener('click',function(event){
+    event.preventDefault();
+    const bank = document.getElementById('pay-bank').value;
+
+    const accountNumber = document.getElementById('bill-account-number').value;
+
+    const amount = getInputValueNumber('pay-amount');
+    
+    const pin =getInputValueNumber('pay-bill-pin');
+    console.log(bank, accountNumber, amount, pin);
+
+    const availableBalance =getInnerText('available-balance');
+
+
+    if(amount <= 0){
+        alert('Invalid amount')
+        return;
+    }
+
+    // * condition
+
+     if( accountNumber.length <11 || accountNumber.length >11 ){
+        alert('Enter Valid mobile number');
+        return;
+    }
+
+    if(pin !== ValidPinNumber){
+        alert('provide valid pin number');
+        return;
+    }
+
+
+
+
+    // *calculation
+    const totalNewBalance = availableBalance - amount;
+
+    setInnerText(totalNewBalance)
+
+    const data = {
+        name : "Pay Bill",
+        date: new Date().toLocaleTimeString()
+    }
+
+    transactionData.push(data)
+})
+
+
+//  * transaction
 
 document.getElementById('transaction-btn').addEventListener('click',function(){
     const transactionContainer = document.getElementById('transaction-container')
@@ -154,29 +299,39 @@ document.getElementById('transaction-btn').addEventListener('click',function(){
 
     for(const data of transactionData){
         const div = document.createElement("div")
-        div.innerHTML = `
-                  <div
-            class="bg-white rounded-xl p-3 flex justify-between items-center"
-          >
-            <div class="flex items-center">
-              <div class="p-3 rounded-full bg-[#f4f5f7]">
-                <img src="./assets/wallet1.png" alt="" / class=" mx-auto">
-              </div>
-              <div class="ml-3">
-                <h1>${data.name}</h1>
-                <p>${data.date}</p>
-              </div>
-            </div>
-            <i class="fa-solid fa-ellipsis-vertical"></i>
-          </div>
-         `
-        
-
-        transactionContainer.appendChild(div)
+       
     }
     
 })
 
+document.getElementById('transaction-btn').addEventListener('click',function(){
+    const transactionContainer = document.getElementById('transaction-container');
+
+    transactionContainer.innerText = ''
+
+    for(const data of transactionData){
+        const div = document.createElement('div')
+        div.innerHTML = `
+        
+        <div class=" bg-white rounded-xl p-3 flex justify-between items-center mt-3">
+          <div class="flex items-center">
+            <div class=" p-3 rounded-full bg-[#f4f5f7]">
+              <img src="./assets/wallet1.png" alt="" class="mx-auto">
+            </div>
+            <div class="ml-3">
+              <h1>${data.name}</h1>
+              <p>${data.date}</p>
+            </div>
+          </div>
+
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+        `
+
+        transactionContainer.appendChild(div)
+
+    }
+})
 
 
 
